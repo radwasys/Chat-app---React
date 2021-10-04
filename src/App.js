@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { db } from "./firebase.js";
+import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
 
 function App() {
+  const addUser = async () => {
+    try {
+      const ref = await addDoc(collection(db, "users"), {
+        email: "tokkahamdy@gmail.com",
+        username: "tokka",
+        password: "tokka25",
+      });
+      console.log(ref.id);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getUser = async () => {
+    const ref = doc(db, "users", "Nm2YBU7yChCgSXrwM9D1");
+    const document = await getDoc(ref);
+    console.log(document.data());
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={addUser}>add</button>
+      <button onClick={getUser}>get</button>
     </div>
   );
 }
