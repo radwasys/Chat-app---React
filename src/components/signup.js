@@ -1,8 +1,15 @@
 import { useState } from "react";
-import Navbar from "./navbar";
-import { alert } from "./alert.js";
-import { addUser } from "./draft.js";
-import { useHistory } from "react-router-dom";
+import { addUser, getUsers } from "./draft.js";
+import { useHistory, Link } from "react-router-dom";
+import {
+  query,
+  where,
+  collection,
+  getDocs,
+  getDocuments,
+  size,
+} from "firebase/firestore";
+import { db } from "./firebase.js";
 
 function SignUp(props) {
   const [email, setEmail] = useState("");
@@ -11,7 +18,26 @@ function SignUp(props) {
   const [password2, setPassword2] = useState("");
   const history = useHistory();
 
-  const submit = () => {
+  const submit = async () => {
+    const emailQuery = query(
+      collection(db, "users"),
+      where("email", "==", email)
+    );
+    const usernameQuery = query(
+      collection(db, "users"),
+      where("username", "==", username)
+    );
+    const emails = await getDocs(emailQuery);
+    const usernames = await getDocs(emailQuery);
+
+    if (!emails.empty) {
+      alert("Email is already in use");
+      return;
+    }
+    if (!usernames.empty) {
+      alert("Username is already in use");
+      return;
+    }
     if (email === undefined || email.length < 7) {
       alert("Email is less than 7 charachters", "warning");
       return;
@@ -28,16 +54,21 @@ function SignUp(props) {
       alert("Passwords should be the same", "warning");
       return;
     }
-    (async () => {
-      const error = await addUser(email, username, password);
-      if (!error) {
-        alert("User added!", "success");
-        setEmail("");
-        setPassword("");
-        setUsername("");
-        setPassword2("");
-      }
-    })();
+
+    const type = await addUser(email, username, password);
+    if (type === "success") {
+      alert("User added!", type);
+      setEmail("");
+      setUsername("");
+      setPassword("");
+      setPassword2("");
+      console.log("successs");
+    } else {
+      alert("Error while adding user, Try Again.");
+      console.log("error");
+      return;
+    }
+
     setTimeout(() => {
       history.push("/login");
     }, 2000);
@@ -46,7 +77,6 @@ function SignUp(props) {
   return (
     <div>
       <form>
-        <div id="liveAlertPlaceholder"></div>
         <h2 align="center">Sign Up</h2>
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">
@@ -113,6 +143,10 @@ function SignUp(props) {
           >
             Sign Up
           </button>
+        </div>
+        <br></br>
+        <div align="center">
+          <Link to={"/login"}>Already a user?</Link>
         </div>
       </form>
     </div>

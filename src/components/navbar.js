@@ -1,4 +1,3 @@
-import { createRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Navbar(props) {
@@ -19,6 +18,9 @@ function Navbar(props) {
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
+              <Link className="nav-link" to={"/home"}>
+                Home
+              </Link>
               <Link className="nav-link" to={"/login"}>
                 Login
               </Link>

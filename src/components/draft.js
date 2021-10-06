@@ -1,7 +1,5 @@
-import { db, storage, app } from "./firebase.js";
+import { db, storage } from "./firebase.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { createRef, useState } from "react";
-import { alert } from "./alert.js";
 import {
   collection,
   addDoc,
@@ -9,6 +7,8 @@ import {
   getDocs,
   getDoc,
   doc,
+  query,
+  where,
 } from "firebase/firestore";
 //public\Screenshot (10).png
 
@@ -18,7 +18,7 @@ const change = () => {
 };
 
 const addUser = async (email, username, password) => {
-  var error = false;
+  let type;
   try {
     const ref = await addDoc(collection(db, "users"), {
       email: email,
@@ -26,18 +26,22 @@ const addUser = async (email, username, password) => {
       password: password,
     });
     console.log(ref.id);
-    error = false;
+    type = "success";
   } catch (e) {
-    alert("Error while adding User, Try again later.", "danger");
-    error = true;
+    type = "danger";
   }
-  return error;
+  return type;
 };
 
 const getUser = async () => {
   const ref = doc(db, "users", "Nm2YBU7yChCgSXrwM9D1");
   const document = await getDoc(ref);
   console.log(document.data());
+};
+
+const getUsers = async () => {
+  const snaps = await getDocs(collection(db, "users"));
+  return snaps;
 };
 
 const displayImg = () => {
@@ -62,4 +66,4 @@ const displayImg = () => {
     });
 };
 
-export { addUser };
+export { addUser, getUsers };
