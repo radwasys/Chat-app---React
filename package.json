@@ -13,6 +13,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "rxjs": "^7.3.1",
+    "touch": "^3.1.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -38,5 +39,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "## Description:",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radwasys/Chat-app---React.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/radwasys/Chat-app---React/issues"
+  },
+  "homepage": "https://github.com/radwasys/Chat-app---React#readme"
 }

@@ -27,6 +27,9 @@ function Navbar(props) {
               <Link className="nav-link" to={"/signup"}>
                 Sign Up
               </Link>
+              <Link className="nav-link" to={"/logout"}>
+                Log out
+              </Link>
             </div>
           </div>
         </div>

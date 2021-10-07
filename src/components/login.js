@@ -38,6 +38,7 @@ function Login(props) {
       return;
     } else {
       emails.forEach((user) => {
+        props.setUser(user.data());
         if (user.data().password === password) {
           exists.push(true);
         } else {
@@ -78,7 +79,7 @@ function Login(props) {
             Password
           </label>
           <input
-            type="text"
+            type="password"
             class="form-control password1"
             id="exampleFormControlInput1"
             placeholder="Password"
